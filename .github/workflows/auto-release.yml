@@ -46,19 +46,17 @@ jobs:
 
       - name: Read version from setup.py
         run: |
-           VERSION=$(grep -oP "version:\s*['\"]\K[^'\"]+" setup.py)
-           if [ -z "$VERSION" ]; then
+         VERSION=$(grep -oP "version\s*=\s*['\"]\K[^'\"]+" setup.py)
+         if [ -z "$VERSION" ]; then
            echo "Failed to determine version from setup.py"
            exit 1
-           fi
-           
-           if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+         fi
+         if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
            echo "Invalid version format: $VERSION"
            exit 1
-           fi
-           
-           echo "VERSION=$VERSION" >> $GITHUB_ENV
-           echo "Releasing version $VERSION"
+         fi
+         echo "VERSION=$VERSION" >> $GITHUB_ENV
+         echo "Releasing version $VERSION"
      
 
       - name: Prepare release notes
